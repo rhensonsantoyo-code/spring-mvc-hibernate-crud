@@ -2,7 +2,6 @@ package org.example.controller;
 
 import org.example.model.User;
 import org.example.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,36 +10,51 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService service;
 
+    public UserController(UserService service) {
+        this.service = service;
+    }
+
+    // List
     @GetMapping
-    public String listUsers(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "users";
+    public String list(Model model) {
+        model.addAttribute("users", service.getAllUsers());
+        return "users";        // -> /WEB-INF/views/users.jsp
     }
 
-    @GetMapping("/new")
-    public String showUserForm(Model model) {
-        final var user = model.addAttribute("user", new User());
-        return "user-form";
+    // Show add form
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("user", new User());
+        return "add-user";     // -> /WEB-INF/views/add-user.jsp
     }
 
-    @PostMapping
-    public String saveUser(@ModelAttribute("user") User user) {
-        userService.saveUser(user);
+    // Save new
+    @PostMapping("/save")
+    public String save(@ModelAttribute User user) {
+        service.saveUser(user);
         return "redirect:/users";
     }
 
+    // Show edit form
     @GetMapping("/edit/{id}")
-    public String editUser(@PathVariable Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "user-form";
+    public String showEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("user", service.getUserById(id));
+        return "edit-user";    // -> /WEB-INF/views/edit-user.jsp
     }
 
+    // Update existing
+    @PostMapping("/update")
+    public String update(@ModelAttribute User user) {
+        service.saveUser(user);
+        return "redirect:/users";
+    }
+
+    // Delete
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public String delete(@PathVariable Long id) {
+        service.deleteUser(id);
         return "redirect:/users";
     }
 }
