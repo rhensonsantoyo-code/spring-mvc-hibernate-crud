@@ -15,48 +15,41 @@ public class UserController {
         this.service = service;
     }
 
-    // Root → redirect to index page
     @GetMapping("/")
     public String home() {
-        return "index";   // -> src/main/resources/templates/index.html
+        return "index";
     }
 
-    // List
     @GetMapping("/users")
     public String list(Model model) {
         model.addAttribute("users", service.getAllUsers());
-        return "users";   // -> src/main/resources/templates/users.html
+        return "users";
     }
 
-    // Show add form
     @GetMapping("/users/add")
     public String showAddForm(Model model) {
         model.addAttribute("user", new User());
-        return "add-user";   // -> src/main/resources/templates/add-user.html
+        return "add-user";
     }
 
-    // Save new
     @PostMapping("/users/save")
     public String save(@ModelAttribute User user) {
         service.saveUser(user);
         return "redirect:/users";
     }
 
-    // Show edit form
     @GetMapping("/users/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("user", service.getUserById(id));
-        return "edit-user";   // -> src/main/resources/templates/edit-user.html
+        return "edit-user";
     }
 
-    // Update existing
     @PostMapping("/users/update")
     public String update(@ModelAttribute User user) {
         service.saveUser(user);
         return "redirect:/users";
     }
 
-    // Delete
     @GetMapping("/users/delete/{id}")
     public String delete(@PathVariable Long id) {
         service.deleteUser(id);
