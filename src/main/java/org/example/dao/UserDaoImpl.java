@@ -1,43 +1,44 @@
 package org.example.dao;
 
 import org.example.model.User;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
 
-    private final SessionFactory sessionFactory;
-
-    public UserDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    @PersistenceContext
+    private EntityManager manager;
 
     @Override
     public List<User> getAllUsers() {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from User", User.class).list();
+        return manager.createQuery("from User", User.class).getResultList();
     }
 
     @Override
     public User getUserById(Long id) {
-        return sessionFactory.getCurrentSession().get(User.class, id);
+        return manager.find(User.class, id);
     }
 
     @Override
     public void saveUser(User user) {
-        sessionFactory.getCurrentSession().saveOrUpdate(user);
+        if (user.getId() == null) {
+            manager.persist(user);
+        } else {
+            manager.merge(user);
+        }
     }
 
     @Override
     public void deleteUser(Long id) {
         User user = getUserById(id);
         if (user != null) {
-            sessionFactory.getCurrentSession().delete(user);
+            manager.remove(user);
         }
     }
 }
