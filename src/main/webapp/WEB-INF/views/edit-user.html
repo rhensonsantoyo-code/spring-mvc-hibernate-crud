@@ -7,27 +7,31 @@
 <body>
 <h2>Edit User</h2>
 
-<!--/*@thymesVar id="user" type=""*/-->
 <form th:action="@{/users/update}" th:object="${user}" method="post">
-    <!-- Hidden field for ID -->
-    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{id}" />
 
     <p>
-        First Name: <label>
-        <input type="text" th:field="*{firstName}" required/>
-    </label>
-
-        Last Name: <label>
-        <input type="text" th:field="*{lastName}" required/>
-    </label>
-
-        Email: <label>
-        <input type="email" th:field="*{email}" required/>
-    </label>
-
-        <button type="submit">Update</button>
-        <a th:href="@{/users}">Cancel</a>
+        First Name:
+        <input type="text" th:field="*{firstName}" pattern="[A-Za-z]+" title="Letters only" required />
+        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
     </p>
+
+    <p>
+        Last Name:
+        <input type="text" th:field="*{lastName}" pattern="[A-Za-z]+" title="Letters only" required />
+        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+    </p>
+
+    <p>
+        Email:
+        <label>
+            <input type="email" th:field="*{email}" required />
+        </label>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    </p>
+
+    <button type="submit">Update</button>
+    <a th:href="@{/users}">Cancel</a>
 </form>
 </body>
 </html>

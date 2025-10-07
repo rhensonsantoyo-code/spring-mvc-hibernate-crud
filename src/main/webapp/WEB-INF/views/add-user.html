@@ -9,17 +9,27 @@
 
 <form th:action="@{/users/save}" th:object="${user}" method="post">
     <p>
-        First Name: <label>
-        <input type="text" th:field="*{firstName}" required/>
-    </label>
-
+        First Name:
+        <input type="text" th:field="*{firstName}" pattern="[A-Za-z]+" title="Letters only" required />
+        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
     </p>
-    Last Name: <input type="text" th:field="*{lastName}" required/>
 
-    Email: <input type="email" th:field="*{email}" required/>
+    <p>
+        Last Name:
+        <input type="text" th:field="*{lastName}" pattern="[A-Za-z]+" title="Letters only" required />
+        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+    </p>
+
+    <p>
+        Email:
+        <label>
+            <input type="email" th:field="*{email}" required />
+        </label>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    </p>
 
     <button type="submit">Save</button>
     <a th:href="@{/users}">Cancel</a>
 </form>
 </body>
-</html>>
+</html>
