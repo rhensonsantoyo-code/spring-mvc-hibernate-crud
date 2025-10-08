@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8" />
     <title>Edit User</title>
-    <meta charset="UTF-8">
 </head>
 <body>
 <h2>Edit User</h2>
@@ -10,28 +10,31 @@
 <form th:action="@{/users/update}" th:object="${user}" method="post">
     <input type="hidden" th:field="*{id}" />
 
-    <p>
-        First Name:
-        <input type="text" th:field="*{firstName}" pattern="[A-Za-z]+" title="Letters only" required />
-        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-    </p>
-
-    <p>
-        Last Name:
-        <input type="text" th:field="*{lastName}" pattern="[A-Za-z]+" title="Letters only" required />
-        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-    </p>
-
-    <p>
-        Email:
-        <label>
-            <input type="email" th:field="*{email}" required />
+    <div>
+        <label>First Name:
+            <input type="text" th:field="*{firstName}" />
         </label>
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-    </p>
+        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color:red"></span>
+    </div>
 
-    <button type="submit">Update</button>
-    <a th:href="@{/users}">Cancel</a>
+    <div>
+        <label>Last Name:
+            <input type="text" th:field="*{lastName}" />
+        </label>
+        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color:red"></span>
+    </div>
+
+    <div>
+        <label>Email:
+            <input type="email" th:field="*{email}" />
+        </label>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></span>
+    </div>
+
+    <div>
+        <button type="submit">Update</button>
+        <a th:href="@{/users}">Cancel</a>
+    </div>
 </form>
 </body>
 </html>

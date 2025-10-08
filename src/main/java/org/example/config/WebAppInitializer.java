@@ -5,13 +5,11 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        // Root context: persistence + service beans
         return new Class[] { PersistenceJPAConfig.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        // Web context (controllers, view resolvers)
         return new Class[] { WebConfig.class };
     }
 

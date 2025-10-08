@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8" />
     <title>Users</title>
 </head>
 <body>
 <h2>User List</h2>
-<a th:href="@{/users/add}">Add User</a>
+<p><a th:href="@{/users/add}">Add User</a></p>
+
 <table border="1">
+    <thead>
     <tr><th>ID</th><th>First</th><th>Last</th><th>Email</th><th>Actions</th></tr>
-    <!--/*@thymesVar id="users" type=""*/-->
+    </thead>
+    <tbody>
     <tr th:each="user : ${users}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.firstName}"></td>
-        <td th:text="${user.lastName}"></td>
-        <td th:text="${user.email}"></td>
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.firstName}">First</td>
+        <td th:text="${user.lastName}">Last</td>
+        <td th:text="${user.email}">email@example.com</td>
         <td>
             <a th:href="@{/users/edit/{id}(id=${user.id})}">Edit</a> |
             <a th:href="@{/users/delete/{id}(id=${user.id})}">Delete</a>
         </td>
     </tr>
+    </tbody>
 </table>
+
+<p><a th:href="@{/}">Home</a></p>
 </body>
 </html>
